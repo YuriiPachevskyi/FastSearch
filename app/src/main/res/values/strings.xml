@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">FastSearch</string>
+    <string name="motor_connected">Запитка:  </string>
+    <string name="motor_name">Название:  </string>
+    <string name="motor_name_RTM">RTM:  </string>
+    <string name="motor_location">Location:  </string>
 </resources>
