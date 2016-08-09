@@ -24,22 +24,14 @@ public class StartUpActivity extends Activity implements SearchView.OnQueryTextL
     private static final String TAG = "MainActivity";
     private SearchView mSearchView;
     private ListView mListView;
-    DataBase dataBase;
+    private DataBase dataBase;
     private List<String> rtmList;
     private FrameLayout listFrameLayout;
     private FrameLayout displayFrameLayout;
-
     private TextView motorConnectedText;
     private TextView motorNameText;
     private TextView motorNameRTMText;
     private TextView motorLocationText;
-
-
-//            <string name="motor_connected">CONNECTED: </string>
-//    <string name="motor_name">NAME: </string>
-//    <string name="motor_name_RTM">RTM_NAME: </string>
-//    <string name="motor_location">LOCATION: </string>
-//    </resources>
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +54,10 @@ public class StartUpActivity extends Activity implements SearchView.OnQueryTextL
         mListView.setTextFilterEnabled(true);
         listFrameLayout    = (FrameLayout) findViewById(R.id.search_frame_layout);
         displayFrameLayout = (FrameLayout) findViewById(R.id.display_frame_layout);
-
-
         motorConnectedText = (TextView) findViewById(R.id.motor_connection);
         motorNameText      = (TextView) findViewById(R.id.motor_name);
         motorNameRTMText   = (TextView) findViewById(R.id.motor_name_RTM);
         motorLocationText  = (TextView) findViewById(R.id.motor_location);
-
-
 
         setupSearchView();
         setOnItemClickListener();
