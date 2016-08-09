@@ -49,7 +49,7 @@ public class DataBase extends SQLiteOpenHelper {
 
     public String getConnectionByRTM(String rtm) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query      = "select Connected from station_motors where NameRTM = \"" + rtm + "\"";
+        String query      = "select Connected from station_motors where Connected is not null and NameRTM = \"" + rtm + "\"";
         String result     = new String();
         Cursor res        =  db.rawQuery(query, null);
 
@@ -70,7 +70,7 @@ public class DataBase extends SQLiteOpenHelper {
 
     public String getNameByRTM(String rtm) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query      = "select Name from station_motors where NameRTM = \"" + rtm + "\"";
+        String query      = "select Name from station_motors where Name is not null and      NameRTM = \"" + rtm + "\"";
         String result     = new String();
         Cursor res        =  db.rawQuery(query, null);
 
@@ -91,7 +91,7 @@ public class DataBase extends SQLiteOpenHelper {
 
     public String getLocationByRTM(String rtm) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query      = "select LocationHardware from station_motors where NameRTM = \"" + rtm + "\"";
+        String query      = "select LocationHardware from station_motors where LocationHardware is not null and NameRTM = \"" + rtm + "\"";
         String result     = new String();
         Cursor res        =  db.rawQuery(query, null);
 
