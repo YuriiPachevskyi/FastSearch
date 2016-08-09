@@ -30,6 +30,38 @@ public class DataBase extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
 
+    public List<String> getConnectedList() {
+        List<String> result = new ArrayList<String>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select Connected from station_motors";
+        Cursor res =  db.rawQuery(query, null);
+
+        for ( int i = 0; i < res.getCount(); i++ ) {
+            res.moveToNext();
+            result.add(new String(res.getString(res.getColumnIndex(CONNECTED))));
+        }
+        db.close();
+        res.close();
+
+        return result;
+    }
+
+    public List<String> getNameList() {
+        List<String> result = new ArrayList<String>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select Name from station_motors";
+        Cursor res =  db.rawQuery(query, null);
+
+        for ( int i = 0; i < res.getCount(); i++ ) {
+            res.moveToNext();
+            result.add(new String(res.getString(res.getColumnIndex(NAME))));
+        }
+        db.close();
+        res.close();
+
+        return result;
+    }
+
 
     public List<String> getRTMList() {
         List<String> result = new ArrayList<String>();
@@ -47,63 +79,88 @@ public class DataBase extends SQLiteOpenHelper {
         return result;
     }
 
-    public String getConnectionByRTM(String rtm) {
+    public List<String> getLocationList() {
+        List<String> result = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String query      = "select Connected from station_motors where Connected is not null and NameRTM = \"" + rtm + "\"";
-        String result     = new String();
-        Cursor res        =  db.rawQuery(query, null);
+        String query = "select LocationHardware from station_motors";
+        Cursor res =  db.rawQuery(query, null);
 
-        if ( res.getCount() == 0 ) {
-            db.close();
-            res.close();
-
-            return result;
+        for ( int i = 0; i < res.getCount(); i++ ) {
+            res.moveToNext();
+            result.add(new String(res.getString(res.getColumnIndex(LOCATION))));
         }
-
-        res.moveToNext();
-        result = new String(res.getString(res.getColumnIndex(CONNECTED)));
         db.close();
         res.close();
 
         return result;
     }
 
-    public String getNameByRTM(String rtm) {
+    public List<String> getValuesListByConnection(String value) {
+        List<String> result = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String query      = "select Name from station_motors where Name is not null and      NameRTM = \"" + rtm + "\"";
-        String result     = new String();
-        Cursor res        =  db.rawQuery(query, null);
-
-        if ( res.getCount() == 0 ) {
-            db.close();
-            res.close();
-
-            return result;
-        }
+        String query = "select * from station_motors where Connected = \"" + value + "\"";
+        Cursor res =  db.rawQuery(query, null);
 
         res.moveToNext();
-        result = new String(res.getString(res.getColumnIndex(NAME)));
+        result.add(new String(res.getString(res.getColumnIndex(CONNECTED))));
+        result.add(new String(res.getString(res.getColumnIndex(NAME))));
+        result.add(new String(res.getString(res.getColumnIndex(NAME_RTM))));
+        result.add(new String(res.getString(res.getColumnIndex(LOCATION))));
+
         db.close();
         res.close();
 
         return result;
     }
 
-    public String getLocationByRTM(String rtm) {
+    public List<String> getValuesListByName(String value) {
+        List<String> result = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String query      = "select LocationHardware from station_motors where LocationHardware is not null and NameRTM = \"" + rtm + "\"";
-        String result     = new String();
-        Cursor res        =  db.rawQuery(query, null);
-
-        if ( res.getCount() == 0 ) {
-            db.close();
-            res.close();
-
-            return result;
-        }
+        String query = "select * from station_motors where Name = \"" + value + "\"";
+        Cursor res =  db.rawQuery(query, null);
 
         res.moveToNext();
-        result = new String(res.getString(res.getColumnIndex(LOCATION)));
+        result.add(new String(res.getString(res.getColumnIndex(CONNECTED))));
+        result.add(new String(res.getString(res.getColumnIndex(NAME))));
+        result.add(new String(res.getString(res.getColumnIndex(NAME_RTM))));
+        result.add(new String(res.getString(res.getColumnIndex(LOCATION))));
+
+        db.close();
+        res.close();
+
+        return result;
+    }
+
+    public List<String> getValuesListByRTM(String value) {
+        List<String> result = new ArrayList<String>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select * from station_motors where NameRTM = \"" + value + "\"";
+        Cursor res =  db.rawQuery(query, null);
+
+        res.moveToNext();
+        result.add(new String(res.getString(res.getColumnIndex(CONNECTED))));
+        result.add(new String(res.getString(res.getColumnIndex(NAME))));
+        result.add(new String(res.getString(res.getColumnIndex(NAME_RTM))));
+        result.add(new String(res.getString(res.getColumnIndex(LOCATION))));
+
+        db.close();
+        res.close();
+
+        return result;
+    }
+
+    public List<String> getValuesListLocation(String value) {
+        List<String> result = new ArrayList<String>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "select * from station_motors where LocationHardware = \"" + value + "\"";
+        Cursor res =  db.rawQuery(query, null);
+
+        res.moveToNext();
+        result.add(new String(res.getString(res.getColumnIndex(CONNECTED))));
+        result.add(new String(res.getString(res.getColumnIndex(NAME))));
+        result.add(new String(res.getString(res.getColumnIndex(NAME_RTM))));
+        result.add(new String(res.getString(res.getColumnIndex(LOCATION))));
+
         db.close();
         res.close();
 

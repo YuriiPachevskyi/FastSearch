@@ -1,5 +1,9 @@
 <resources>
-    <string name="app_name">FastSearch</string>
+    <string name="app_name">Location Of Motors</string>
+    <string name="action_search_by_rtm">Search by RTM</string>
+    <string name="action_search_by_connection">Search by connection</string>
+    <string name="action_search_by_name">Search by name</string>
+    <string name="action_search_by_location">Search by location</string>
     <string name="motor_connected">Запитка:  </string>
     <string name="motor_name">Название:  </string>
     <string name="motor_name_RTM">RTM:  </string>
