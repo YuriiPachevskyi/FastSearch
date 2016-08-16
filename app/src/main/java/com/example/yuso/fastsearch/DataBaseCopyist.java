@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,11 +15,13 @@ import java.io.OutputStream;
 public class DataBaseCopyist extends SQLiteOpenHelper {
     public static String TAG      = "DataBaseCopyist";
     public static String DATABASE = "content.db";
+    private String dbPath;
     private Context myContext;
 
     public DataBaseCopyist(Context context) throws IOException {
         super(context, DATABASE, null, 1);
         myContext = context;
+        dbPath    = "/data/data/" + context.getPackageName() + "/databases/" + DATABASE;
         try {
             createDataBase();
         } catch (IOException e) {
@@ -50,8 +53,7 @@ public class DataBaseCopyist extends SQLiteOpenHelper {
         SQLiteDatabase checkDB = null;
 
         try {
-            String myPath = "/data/data/" + myContext.getPackageName() + "/databases/" + DATABASE;
-            checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+            checkDB = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READONLY);
         } catch (SQLiteException e) {
             Log.e(TAG, "database does't exist yet.");
         }
@@ -64,8 +66,7 @@ public class DataBaseCopyist extends SQLiteOpenHelper {
 
     private void copyDataBase() throws IOException{
         InputStream myInput = myContext.getResources().openRawResource(R.raw.content);
-        String outFileName = "/data/data/" + myContext.getPackageName() + "/databases/" + DATABASE;
-        OutputStream myOutput = new FileOutputStream(outFileName);
+        OutputStream myOutput = new FileOutputStream(dbPath);
 
         byte[] buffer = new byte[1024];
         int length;
