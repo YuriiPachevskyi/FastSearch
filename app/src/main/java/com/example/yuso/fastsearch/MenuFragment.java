@@ -18,10 +18,8 @@ public class MenuFragment extends Fragment implements SearchView.OnQueryTextList
 
     private  OnItemSelectedListener listener;
     private  ArrayAdapter<String> itemsAdapter;
-    private DataBase   dataBase;
     private ListView   mListView;
     private SearchView mSearchView;
-
 
     @Override
     public void onAttach(Context context) {
@@ -37,8 +35,8 @@ public class MenuFragment extends Fragment implements SearchView.OnQueryTextList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dataBase     = new DataBase((Context) listener);
-        itemsAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, dataBase.getRTMList());
+        itemsAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,
+                new DataBase((Context) listener).getRTMList());
     }
 
     @Override
@@ -82,8 +80,26 @@ public class MenuFragment extends Fragment implements SearchView.OnQueryTextList
         return false;
     }
 
+    public void changeSearchList(StartUpActivity.STATE_LIST stateFlag, DataBase dataBase) {
+        if ( dataBase == null ) {
+            Log.e("+++", "nulllllllllllllll");
+        }
+        if ( stateFlag == StartUpActivity.STATE_LIST.NAME_RTM ) {
+            mListView.setAdapter(new ArrayAdapter<String>((Context) listener,
+                    android.R.layout.simple_list_item_1, dataBase.getRTMList()));
+        } else if ( stateFlag == StartUpActivity.STATE_LIST.CONNECTION ) {
+            mListView.setAdapter(new ArrayAdapter<String>((Context) listener,
+                    android.R.layout.simple_list_item_1, dataBase.getConnectedList()));
+        } else if ( stateFlag == StartUpActivity.STATE_LIST.NAME) {
+            mListView.setAdapter(new ArrayAdapter<String>((Context) listener,
+                    android.R.layout.simple_list_item_1, dataBase.getNameList()));
+        } else if ( stateFlag == StartUpActivity.STATE_LIST.LOCATION ) {
+            mListView.setAdapter(new ArrayAdapter<String>((Context) listener,
+                    android.R.layout.simple_list_item_1, dataBase.getLocationList()));
+        }
+    }
+
     private void setupSearchView() {
-//        mSearchView.setIconifiedByDefault(false);
         mSearchView.setOnQueryTextListener(this);
         mSearchView.setSubmitButtonEnabled(false);
         mSearchView.setQueryHint("Search");
